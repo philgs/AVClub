@@ -13,8 +13,5 @@
         <None Include="AVClub.psd1">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Include="AVClub.dll-Help.xml">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 </Project>
