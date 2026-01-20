@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="utf-8"?>
+<helpItems xmlns="http://msh" schema="maml" xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+  <!-- Get-FileMetadata -->
+  <command:command>
+    <command:details>
+      <command:name>Get-FileMetadata</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>FileMetadata</command:noun>
+      <maml:description>
+        <maml:para>Reads the tags and metadata from a media file.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-FileMetadata cmdlet reads the tag metadata of a given media file (audio, video, or image) and returns it as a custom object. The cmdlet uses the TagLibSharp library to extract all metadata properties from supported file formats including MP3, FLAC, Ogg, M4A, WAV, and more.</maml:para>
+      <maml:para>Each metadata property from the file's tags becomes a property on the returned object, allowing you to access values like Title, Album, Artists, Year, Track number, and other standard media metadata fields.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-FileMetadata</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+          <maml:name>FilePath</maml:name>
+          <maml:description>
+            <maml:para>The fully qualified path to the media file. The file must exist.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+        <maml:name>FilePath</maml:name>
+        <maml:description>
+          <maml:para>The fully qualified path to the media file. The file must exist on the filesystem. The cmdlet validates that the path exists before attempting to read metadata.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe a file path string to this cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Management.Automation.PSObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>Returns a custom PSObject containing all metadata properties from the media file's tags. Properties include Title, Album, AlbumArtists, Performers, Composers, Genres, Year, Track, TrackCount, Disc, DiscCount, Comment, Lyrics, Copyright, and other tag-specific properties.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>This cmdlet opens files in read-only mode to prevent accidental modifications. To modify metadata, use Set-FileMetadata.</maml:para>
+        <maml:para>Supported file formats include MP3, FLAC, Ogg Vorbis, M4A/AAC, WAV, WMA, and other formats supported by the TagLibSharp library.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>----------  Example 1: Get metadata from an MP3 file  ----------</maml:title>
+        <dev:code>PS C:\&gt; Get-FileMetadata -FilePath "C:\Music\song.mp3"
+
+Title        : My Song
+Album        : Greatest Hits
+AlbumArtists : {Artist Name}
+Performers   : {Artist Name}
+Year         : 2016
+Track        : 1
+TrackCount   : 12
+Genres       : {Rock}</dev:code>
+        <dev:remarks>
+          <maml:para>This command reads all metadata tags from the specified MP3 file and displays them as object properties.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 2: Get specific metadata properties  ----------</maml:title>
+        <dev:code>PS C:\&gt; Get-FileMetadata -FilePath "C:\Music\song.mp3" | Select-Object Title, Album, Year
+
+Title    Album         Year
+-----    -----         ----
+My Song  Greatest Hits 2016</dev:code>
+        <dev:remarks>
+          <maml:para>This command reads metadata from an MP3 file and selects only the Title, Album, and Year properties.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 3: Get metadata from multiple files  ----------</maml:title>
+        <dev:code>PS C:\&gt; Get-ChildItem "C:\Music\*.mp3" | ForEach-Object { Get-FileMetadata -FilePath $_.FullName }</dev:code>
+        <dev:remarks>
+          <maml:para>This command retrieves metadata from all MP3 files in the specified directory.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 4: Pipeline input  ----------</maml:title>
+        <dev:code>PS C:\&gt; "C:\Music\song.mp3" | Get-FileMetadata</dev:code>
+        <dev:remarks>
+          <maml:para>This command demonstrates using pipeline input to pass the file path to the cmdlet.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-FileMetadata</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>AVClub Module</maml:linkText>
+        <maml:uri>https://github.com/philgs/AVClub</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+
+  <!-- Set-FileMetadata -->
+  <command:command>
+    <command:details>
+      <command:name>Set-FileMetadata</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>FileMetadata</command:noun>
+      <maml:description>
+        <maml:para>Sets metadata properties on a media file.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Set-FileMetadata cmdlet modifies tag metadata values for a given media file and saves the changes. Only the specified parameters are updated; other metadata fields remain unchanged.</maml:para>
+      <maml:para>The cmdlet supports common metadata fields including Title, Album, Artists, Composers, Genres, Track numbers, Year, and more. Changes are written directly to the file.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-FileMetadata</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+          <maml:name>FilePath</maml:name>
+          <maml:description>
+            <maml:para>The fully qualified path to the media file to modify.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Title</maml:name>
+          <maml:description>
+            <maml:para>The track title.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AlbumArtists</maml:name>
+          <maml:description>
+            <maml:para>The album artists.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Album</maml:name>
+          <maml:description>
+            <maml:para>The album name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Composers</maml:name>
+          <maml:description>
+            <maml:para>The composers of the track.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Genres</maml:name>
+          <maml:description>
+            <maml:para>The music genres.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Track</maml:name>
+          <maml:description>
+            <maml:para>The track number.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.UInt32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>TrackCount</maml:name>
+          <maml:description>
+            <maml:para>The total number of tracks on the album.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.UInt32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Disc</maml:name>
+          <maml:description>
+            <maml:para>The disc number.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.UInt32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>DiscCount</maml:name>
+          <maml:description>
+            <maml:para>The total number of discs.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.UInt32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Year</maml:name>
+          <maml:description>
+            <maml:para>The release year.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+          <dev:type>
+            <maml:name>System.UInt32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Publisher</maml:name>
+          <maml:description>
+            <maml:para>The publisher or record label.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Performers</maml:name>
+          <maml:description>
+            <maml:para>The performers or artists.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Comment</maml:name>
+          <maml:description>
+            <maml:para>A comment or note about the track.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Copyright</maml:name>
+          <maml:description>
+            <maml:para>Copyright information.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>A description of the track or content.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Lyrics</maml:name>
+          <maml:description>
+            <maml:para>The lyrics text.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Subtitle</maml:name>
+          <maml:description>
+            <maml:para>A subtitle or additional title information.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+          <dev:type>
+            <maml:name>System.String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+        <maml:name>FilePath</maml:name>
+        <maml:description>
+          <maml:para>The fully qualified path to the media file to modify. The file must exist on the filesystem.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Title</maml:name>
+        <maml:description>
+          <maml:para>The track title.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>AlbumArtists</maml:name>
+        <maml:description>
+          <maml:para>The album artists. This field represents the primary artist(s) for the album as a whole, which may differ from the track performers on compilation albums.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Album</maml:name>
+        <maml:description>
+          <maml:para>The album name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Composers</maml:name>
+        <maml:description>
+          <maml:para>The composers of the track. This field is typically used to credit the songwriters.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Genres</maml:name>
+        <maml:description>
+          <maml:para>The music genres. Multiple genres can be specified.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Track</maml:name>
+        <maml:description>
+          <maml:para>The track number on the album or disc.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.UInt32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>TrackCount</maml:name>
+        <maml:description>
+          <maml:para>The total number of tracks on the album or disc.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.UInt32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Disc</maml:name>
+        <maml:description>
+          <maml:para>The disc number for multi-disc albums.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.UInt32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>DiscCount</maml:name>
+        <maml:description>
+          <maml:para>The total number of discs in a multi-disc set.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.UInt32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Year</maml:name>
+        <maml:description>
+          <maml:para>The release year of the track or album.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.UInt32</command:parameterValue>
+        <dev:type>
+          <maml:name>System.UInt32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Publisher</maml:name>
+        <maml:description>
+          <maml:para>The publisher or record label name.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Performers</maml:name>
+        <maml:description>
+          <maml:para>The performers or artists for this specific track. On compilation albums, this may differ from the AlbumArtists.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Comment</maml:name>
+        <maml:description>
+          <maml:para>A comment or note about the track. This field is often used for additional information or personal notes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Copyright</maml:name>
+        <maml:description>
+          <maml:para>Copyright information for the track or album.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Description</maml:name>
+        <maml:description>
+          <maml:para>A description of the track or content. This is typically a longer text field than Comment.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Lyrics</maml:name>
+        <maml:description>
+          <maml:para>The lyrics text for the track.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Subtitle</maml:name>
+        <maml:description>
+          <maml:para>A subtitle or additional title information for the track.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe a file path string to this cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>This cmdlet does not return any output. It modifies the file directly.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Only the parameters you specify are updated. All other metadata fields remain unchanged.</maml:para>
+        <maml:para>Changes are written directly to the file. There is no undo operation, so consider backing up files before making bulk changes.</maml:para>
+        <maml:para>Supported file formats include MP3, FLAC, Ogg Vorbis, M4A/AAC, WAV, WMA, and other formats supported by the TagLibSharp library.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>----------  Example 1: Set the title of a track  ----------</maml:title>
+        <dev:code>PS C:\&gt; Set-FileMetadata -FilePath "C:\Music\song.mp3" -Title "My New Title"</dev:code>
+        <dev:remarks>
+          <maml:para>This command sets the title of the specified MP3 file.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 2: Set multiple metadata fields  ----------</maml:title>
+        <dev:code>PS C:\&gt; Set-FileMetadata -FilePath "C:\Music\song.mp3" -Title "My Song" -Album "Greatest Hits" -Year 2016 -Track 1 -TrackCount 12</dev:code>
+        <dev:remarks>
+          <maml:para>This command sets multiple metadata fields on the specified file in a single operation.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 3: Set artist information  ----------</maml:title>
+        <dev:code>PS C:\&gt; Set-FileMetadata -FilePath "C:\Music\song.mp3" -Performers "John Doe","Jane Smith" -AlbumArtists "Various Artists"</dev:code>
+        <dev:remarks>
+          <maml:para>This command sets the performers (track artists) and album artists. Note that array parameters accept multiple values separated by commas.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 4: Set metadata using pipeline  ----------</maml:title>
+        <dev:code>PS C:\&gt; "C:\Music\song.mp3" | Set-FileMetadata -Title "Pipeline Title"</dev:code>
+        <dev:remarks>
+          <maml:para>This command demonstrates using pipeline input to pass the file path to the cmdlet.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>----------  Example 5: Update genre and year for multiple files  ----------</maml:title>
+        <dev:code>PS C:\&gt; Get-ChildItem "C:\Music\Album\*.mp3" | ForEach-Object {Set-FileMetadata -FilePath $_.FullName -Genres "Rock" -Year 2016}</dev:code>
+        <dev:remarks>
+          <maml:para>This command updates the genre and year for all MP3 files in a directory.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-FileMetadata</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>AVClub Module</maml:linkText>
+        <maml:uri>https://github.com/philgs/AVClub</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+</helpItems>
