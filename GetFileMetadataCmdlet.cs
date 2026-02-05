@@ -12,6 +12,7 @@ namespace AVClub
 
         protected override void ProcessRecord()
         {
+            WriteVerbose("Opening file (read-only) for metadata retrieval");
             using (var f = TagLib.File.Create(new ReadOnlyFileAbstraction(FilePath)))
             {
                 var psObj = new PSObject();

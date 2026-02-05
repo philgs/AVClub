@@ -62,6 +62,7 @@ namespace AVClub
 
         protected override void ProcessRecord()
         {
+            WriteVerbose("Opening file for metadata writes/updates");
             using (var f = TagLib.File.Create(FilePath))
             {
                 if (MyInvocation.BoundParameters.ContainsKey("Title")) f.Tag.Title = Title;
@@ -81,7 +82,9 @@ namespace AVClub
                 if (MyInvocation.BoundParameters.ContainsKey("Description")) f.Tag.Description = Description;
                 if (MyInvocation.BoundParameters.ContainsKey("Lyrics")) f.Tag.Lyrics = Lyrics;
                 if (MyInvocation.BoundParameters.ContainsKey("Subtitle")) f.Tag.Subtitle = Subtitle;
+                WriteVerbose("Saving changes to file metadata");
                 f.Save();
+                WriteVerbose("Metadata changes saved");
             }
         }
     }
